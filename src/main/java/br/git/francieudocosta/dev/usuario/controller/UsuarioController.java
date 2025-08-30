@@ -1,6 +1,8 @@
 package br.git.francieudocosta.dev.usuario.controller;
 
 import br.git.francieudocosta.dev.usuario.business.UsuarioService;
+import br.git.francieudocosta.dev.usuario.business.dto.EnderecoDTO;
+import br.git.francieudocosta.dev.usuario.business.dto.TelefoneDTO;
 import br.git.francieudocosta.dev.usuario.business.dto.UsuarioDTO;
 import br.git.francieudocosta.dev.usuario.infrastructure.entity.Usuario;
 import br.git.francieudocosta.dev.usuario.infrastructure.security.JwtUtil;
@@ -37,7 +39,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam("email") String email) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam("email") String email) {
 
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
     }
@@ -54,5 +56,19 @@ public class UsuarioController {
                                                             @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok(usuarioService.atualizarDadosUsuario(usuarioDTO, token));
+    }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(@RequestBody EnderecoDTO enderecoDTO,
+                                                        @RequestParam("id") Long id){
+
+        return ResponseEntity.ok(usuarioService.atualizarEnderecoUsuario(id, enderecoDTO));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(@RequestBody TelefoneDTO telefoneDTO,
+                                                        @RequestParam("id") Long id){
+
+        return ResponseEntity.ok(usuarioService.atualizarTelefoneUsuario(id, telefoneDTO));
     }
 }
